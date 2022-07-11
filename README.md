@@ -1,6 +1,11 @@
 # Pudinaaah
 Pudinaah, a Dark Memes discord bot developed for unknows purposes. 
 
+![image](flowchart.png)
+`and for dark mode users : `
+![image](flowchart_d.png)
+
+
 # About
 Pudinaah is a discord bot that randomly sends a meme from the below mentioned subreddits mentioned in `constants.py`
 
