@@ -11,7 +11,7 @@ load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 
 
-client = commands.Bot(command_prefix="d!")
+client = commands.Bot(command_prefix=constants.EXT)
 
 
 # Bot's Ready
