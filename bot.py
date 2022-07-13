@@ -17,6 +17,7 @@ client = commands.Bot(command_prefix=constants.EXT)
 # Bot's Ready
 @client.event
 async def on_ready():
+    auto_meme.start()
     print("Bot is ready.")
     print(f"Logged in as: {client.user.name} ID: {client.user.id}")
     print(f"Online in Guilds:")
@@ -26,7 +27,7 @@ async def on_ready():
 
 
 if __name__ == "__main__":
-    extensions = {"general","memes"}
+    extensions = {"general"}
     for extension in extensions:
         try:
             client.load_extension(extension)
@@ -35,11 +36,15 @@ if __name__ == "__main__":
             print(f"Failed to load Cog {extension}. Reason: {error}")
 
 
-@tasks.loop(seconds=1)
+@tasks.loop(seconds=constants.delay)
 async def auto_meme():
-    print("yo wassap")
-    # channel = client.get_channel(int(constants.MEME_CHANNEL_ID))
-    # await ctx.channel.send("Test message")
+    channel = client.get_channel(int(constants.MEME_CHANNEL_ID))
+    meme = memes.getmeme()
+    embed = discord.Embed(title=meme['title'], url=meme['url'],description="r/FingMemes", color=0x00ff00)
+    embed.set_author(name=meme['author'], url=f"https://reddit.com/u/{meme['author']}")
+    embed.set_image(url = meme['url'])
+    embed.set_footer(text=f"Upvotes: {meme['ups']} | Comments: {meme['comments']}")
+    await channel.send(embed=embed)
 
 
 @client.command(name="load")
@@ -82,6 +87,7 @@ async def reload(ctx, extension):
 @client.command(name="logout")
 @commands.has_role(constants.ADMIN_ROLE)
 async def logout(ctx):
+    auto_meme.stop()
     await ctx.send("<a:jnl:856740626170904606> Logging Out")
     await client.logout()
 
